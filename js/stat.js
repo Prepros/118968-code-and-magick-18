@@ -83,15 +83,16 @@ var getMinVal = function (array) {
   return minVal;
 };
 
-window.renderStatistics = function(ctx, names, times) {
-  renderResultCloud(ctx);
-  //
-  // names.push('nick');
-  // times.push('10000');
-
+// Рисуем графы
+var renderGraph = function (ctx, names, times) {
   var minVal = getMinVal(times);
   var maxVal = getMaxVal(times);
   var userWin = times.indexOf(minVal);
+
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.font = TEXT_FONT;
+  ctx.fillText('Ура ' + names[userWin] + ' победили!', CLOUD_X + 25, CLOUD_Y + 30);
+  ctx.fillText('Список результатов:', CLOUD_X + 25, CLOUD_Y + 50);
 
   for (var i = 0; i < names.length; i++) {
     var heightGraph = Math.floor(times[i] * GRAPH_HEIGHT / maxVal);
@@ -108,9 +109,9 @@ window.renderStatistics = function(ctx, names, times) {
 
     ctx.fillRect(CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_Y + 85, GRAPH_WIDTH, heightGraph);
   }
+};
 
-  ctx.fillStyle = TEXT_COLOR;
-  ctx.font = TEXT_FONT;
-  ctx.fillText('Ура ' + names[userWin] + ' победили!', CLOUD_X + 25, CLOUD_Y + 30);
-  ctx.fillText('Список результатов:', CLOUD_X + 25, CLOUD_Y + 50);
+window.renderStatistics = function(ctx, names, times) {
+  renderResultCloud(ctx);
+  renderGraph(ctx, names, times);
 };
