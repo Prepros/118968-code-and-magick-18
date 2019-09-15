@@ -107,7 +107,7 @@ var renderGraph = function (ctx, names, times) {
       ctx.fillStyle = 'hsl(240, ' + randomVal(30, 95) + '%,  ' + randomVal(30, 80) + '%)';
     }
 
-    ctx.fillRect(CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_Y + 85, GRAPH_WIDTH, heightGraph);
+    ctx.fillRect(CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_HEIGHT - 25, GRAPH_WIDTH, -heightGraph);
   }
 };
 
