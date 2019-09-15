@@ -98,8 +98,8 @@ var renderGraph = function (ctx, names, times) {
     var heightGraph = Math.floor(times[i] * GRAPH_HEIGHT / maxVal);
 
     ctx.fillStyle = TEXT_COLOR;
-    ctx.fillText(Math.floor(times[i]), CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_Y + 75);
-    ctx.fillText(names[i], CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_Y + 255);
+    ctx.fillText(Math.floor(times[i]), CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_HEIGHT - heightGraph - 35);
+    ctx.fillText(names[i], CLOUD_X + 45 + ((GRAPH_WIDTH + MARGIN_GRAPH) * i), CLOUD_HEIGHT - 5);
 
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgb(255, 0, 0  )';
