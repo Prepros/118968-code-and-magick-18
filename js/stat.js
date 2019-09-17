@@ -15,12 +15,6 @@ var MARGIN_GRAPH = 50; // Расстояние между графами
 var TEXT_COLOR = '#000';
 var TEXT_FONT = '16px PT Mono';
 
-// Простое облаго (прямоугольник)
-var renderSimpleCloud = function (ctx, x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
-};
-
 // Сложное облако (с закругленными углами)
 var renderComplexCloud = function (ctx, x, y, color) {
   var radius = 15;
@@ -38,14 +32,9 @@ var renderComplexCloud = function (ctx, x, y, color) {
 };
 
 // Отрисовываем облако с результатами
-var renderResultCloud = function (ctx, type = 'complex') {
-  if (type === 'complex') {
-    renderComplexCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-    renderComplexCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
-  } else {
-    renderSimpleCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-    renderSimpleCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
-  }
+var renderResultCloud = function (ctx) {
+  renderComplexCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
+  renderComplexCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
 };
 
 // Случайное число
@@ -55,7 +44,9 @@ var randomVal = function (min, max) {
 
 // Максимальное значение
 var getMaxVal = function (array) {
-  if (array === []) return false;
+  if (array === []) {
+    return false;
+  }
 
   var maxVal = array[0];
 
@@ -70,7 +61,9 @@ var getMaxVal = function (array) {
 
 // Минимальное значение
 var getMinVal = function (array) {
-  if (array === []) return false;
+  if (array === []) {
+    return false;
+  }
 
   var minVal = array[0];
 
@@ -111,7 +104,7 @@ var renderGraph = function (ctx, names, times) {
   }
 };
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
   renderResultCloud(ctx);
   renderGraph(ctx, names, times);
 };
