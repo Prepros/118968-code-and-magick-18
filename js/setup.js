@@ -1,16 +1,6 @@
 'use strict';
 
-// Случайное число
-var randomVal = function (min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-var setup = document.querySelector('.setup');
-setup.classList.remove('hidden');
-
+// Данные
 var names = [
   'Иван',
   'Хуан Себастьян',
@@ -50,7 +40,14 @@ var eyesColors = [
   'green'
 ];
 
-var persons = [];
+// Перестановка местами имени и фамилии
+var nameOrSurname = function () {
+  var coin = window.randomVal(0, 1);
+  var nameOne = names[window.randomVal(0, names.length - 1)] + ' ' + surNames[window.randomVal(0, names.length - 1)];
+  var surNameOne = surNames[window.randomVal(0, names.length - 1)] + ' ' + names[window.randomVal(0, names.length - 1)];
+
+  return coin === 0 ? nameOne : surNameOne;
+};
 
 // Генерация случайных персонажей
 var generationData = function (count) {
@@ -58,21 +55,22 @@ var generationData = function (count) {
     count = 4;
   }
 
+  var persons = [];
   for (var i = 0; i < count; i++) {
     var person = {
-      name: names[randomVal(0, names.length - 1)] + ' ' + surNames[randomVal(0, names.length - 1)],
-      coatColor: coatColors[randomVal(0, coatColors.length - 1)],
-      eyesColor: eyesColors[randomVal(0, eyesColors.length - 1)]
+      name: nameOrSurname(),
+      coatColor: coatColors[window.randomVal(0, coatColors.length - 1)],
+      eyesColor: eyesColors[window.randomVal(0, eyesColors.length - 1)]
     };
 
     persons.push(person);
   }
+
+  return persons;
 };
 
-// Добавляем персонажей
+// Рисуем DOM
 var renderWizard = function (person) {
-  var similarList = document.querySelector('.setup-similar-list');
-
   var similarTemplate = document.querySelector('#similar-wizard-template').content;
   var similarItem = similarTemplate.querySelector('.setup-similar-item');
 
@@ -86,16 +84,27 @@ var renderWizard = function (person) {
   coatWizard.setAttribute('fill', person.coatColor);
   eyesWizard.setAttribute('fill', person.eyesColor);
 
-  similarList.appendChild(wizard);
+  return wizard;
 };
 
+// Добавляем персонажа
+var addWizard = function (persons) {
+  for (var i = 0; i < persons.length; i++) {
+    var dom = renderWizard(persons[i]);
+    similarList.appendChild(dom);
+  }
+};
 
-// Показываем список персонажей
+// Окно персонажей
+var setup = document.querySelector('.setup');
+// Блок персонажей
 var setupSimilar = setup.querySelector('.setup-similar');
+// Список персонажей
+var similarList = setupSimilar.querySelector('.setup-similar-list');
+
+setup.classList.remove('hidden');
 setupSimilar.classList.remove('hidden');
 
-generationData(4);
+var persons = generationData(4);
 
-for (var i = 0; i < persons.length; i++) {
-  renderWizard(persons[i]);
-}
+addWizard(persons);
