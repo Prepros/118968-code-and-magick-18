@@ -126,7 +126,8 @@ var iconSetupOpen = setupOpen.querySelector('.setup-open-icon');
 var setupClose = document.querySelector('.setup-close');
 var setupUserName = setup.querySelector('.setup-user-name');
 
-var setupWizard = setup.querySelector('.setup-wizard');
+var setupWizardAppearance = setup.querySelector('.setup-wizard-appearance');
+var setupWizard = setupWizardAppearance.querySelector('.setup-wizard');
 var setupWizardCoat = setupWizard.querySelector('.wizard-coat');
 var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
 var setupFireball = setup.querySelector('.setup-fireball-wrap');
@@ -224,18 +225,26 @@ setupUserName.addEventListener('invalid', function () {
 // Цвет одежды
 setupWizardCoat.addEventListener('click', function (evt) {
   var target = evt.target;
-  target.setAttribute('style', 'fill: ' + coatColors[window.randomVal(0, coatColors.length - 1)]);
+  var input = setupWizardAppearance.querySelector('input[name="coat-color"]');
+  var color = coatColors[window.randomVal(0, coatColors.length - 1)];
+
+  target.setAttribute('style', 'fill: ' + color);
+  input.value = color;
 });
 
 // Цвет глаз
 setupWizardEyes.addEventListener('click', function (evt) {
   var target = evt.target;
-  target.setAttribute('style', 'fill: ' + eyesColors[window.randomVal(0, eyesColors.length - 1)]);
+  var input = setupWizardAppearance.querySelector('input[name="eyes-color"]');
+  var color = eyesColors[window.randomVal(0, eyesColors.length - 1)];
+
+  target.setAttribute('style', 'fill: ' + color);
+  input.value = color;
 });
 
 // Цвет фаирбола
 setupFireball.addEventListener('click', function () {
-  var input = setupFireball.querySelector('[name="fireball-color"]');
+  var input = setupFireball.querySelector('input[name="fireball-color"]');
   var color = fireballColors[window.randomVal(0, fireballColors.length - 1)];
 
   setupFireball.setAttribute('style', 'background: ' + color);
