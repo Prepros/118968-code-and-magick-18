@@ -68,8 +68,8 @@
     for (var i = 0; i < count; i++) {
       var person = {
         name: nameOrSurname(),
-        coatColor: coatColors[window.util.getRandomColor(coatColors)],
-        eyesColor: eyesColors[window.util.getRandomColor(eyesColors)]
+        coatColor: window.util.getRandomColor(coatColors),
+        eyesColor: window.util.getRandomColor(eyesColors)
       };
 
       persons.push(person);
