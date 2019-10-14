@@ -71,7 +71,6 @@
 
   // Кнопка отправки формы настроек персонажа
   var setupForm = setup.querySelector('.setup-wizard-form');
-  var setupSubmit = setupForm.querySelector('.setup-submit');
 
   // Генерируем персонажей
   // var persons = window.data.generationData(4);
@@ -128,7 +127,7 @@
 
 
   // Отправляем форму
-  setupSubmit.addEventListener('click', function (evt) {
+  setupForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
     var data = new FormData(setupForm);
