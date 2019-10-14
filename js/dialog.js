@@ -120,6 +120,6 @@
   });
 
   window.dialog = {
-
+    closeSetup: closeSetup
   };
 })();

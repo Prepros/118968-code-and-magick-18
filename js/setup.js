@@ -13,20 +13,28 @@
     var eyesWizard = wizard.querySelector('.wizard-eyes');
 
     nameWizard.textContent = person.name;
-    coatWizard.setAttribute('fill', person.coatColor);
-    eyesWizard.setAttribute('fill', person.eyesColor);
+    coatWizard.setAttribute('fill', person.colorCoat);
+    eyesWizard.setAttribute('fill', person.colorEyes);
 
     return wizard;
   };
 
 
   // Добавляем персонажа
-  var addWizard = function (persons) {
-    for (var i = 0; i < persons.length; i++) {
+  var onAddWizard = function (data) {
+    var persons = [];
+
+    for (var i = 0; i < 4; i++) {
+      var randomWizard = data[window.util.randomVal(0, data.length - 1)];
+      persons.push(randomWizard);
+    }
+
+    for (i = 0; i < persons.length; i++) {
       var dom = renderWizard(persons[i]);
       similarList.appendChild(dom);
     }
   };
+
 
   // Окно персонажей
   var setup = document.querySelector('.setup');
@@ -61,14 +69,19 @@
   var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
   var setupFireball = setup.querySelector('.setup-fireball-wrap');
 
+  // Кнопка отправки формы настроек персонажа
+  var setupForm = setup.querySelector('.setup-wizard-form');
+  var setupSubmit = setupForm.querySelector('.setup-submit');
+
   // Генерируем персонажей
-  var persons = window.data.generationData(4);
+  // var persons = window.data.generationData(4);
 
   // Показываем список персонажей
   setupSimilar.classList.remove('hidden');
 
   // Добавляем персонажей
-  addWizard(persons);
+  // addWizard(persons);
+  window.backend.load(onAddWizard, window.util.onError);
 
   // Цвет одежды
   setupWizardCoat.addEventListener('click', function (evt) {
@@ -111,6 +124,17 @@
     } else {
       setupUserName.setCustomValidity('');
     }
+  });
+
+
+  // Отправляем форму
+  setupSubmit.addEventListener('click', function (evt) {
+    evt.preventDefault();
+
+    var data = new FormData(setupForm);
+
+    window.backend.save(data, window.dialog.closeSetup, window.util.onError);
+
   });
 
   window.setup = {
