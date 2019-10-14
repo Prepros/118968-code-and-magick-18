@@ -1038,3 +1038,19 @@ input[type=radio]:checked + .review-mark-label
 
   background-color: red;
 }
+
+.jsop {
+  position: absolute;
+  left: 0;
+  z-index: 99;
+
+  width: 200px;
+  padding: 20px;
+
+  font-size: 16px;
+  color: black;
+
+  background-color: white;
+  border: 2px solid black;
+
+}
