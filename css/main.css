@@ -1042,9 +1042,11 @@ input[type=radio]:checked + .review-mark-label
 .jsop {
   position: absolute;
   left: 0;
+  bottom: 0;
   z-index: 99;
 
   width: 200px;
+  max-height: 290px;
   padding: 20px;
 
   font-size: 16px;
@@ -1053,4 +1055,5 @@ input[type=radio]:checked + .review-mark-label
   background-color: white;
   border: 2px solid black;
 
+  overflow: auto;
 }

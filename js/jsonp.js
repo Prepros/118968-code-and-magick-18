@@ -6,7 +6,7 @@
     jsop.classList.add('jsop');
 
     var text = 'JSONP: <br><br>';
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < data.length; i++) {
       text += 'Name: ' + data[i].name + '; Цвет плаща: ' + data[i].colorCoat + '; Цвет глаз: ' + data[i].colorEyes + '.. и многое другое <br><br>';
     }
 
