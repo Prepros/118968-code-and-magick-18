@@ -28,6 +28,7 @@
       try {
         var data = JSON.parse(xhr.responseText);
       } catch (e) {
+        onError('Произошла ошибка ' + error);
         throw new Error(error + e);
       }
 
