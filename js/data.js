@@ -3,9 +3,9 @@
 (function () {
   // Рейтинг фильтрации
   var Rate = {
-    coat: 3,
-    eye: 2,
-    fair: 1
+    colorCoat: 3,
+    colorEyes: 2,
+    colorFireball: 1
   };
 
 

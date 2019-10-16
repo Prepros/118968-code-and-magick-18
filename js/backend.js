@@ -2,7 +2,7 @@
 
 (function () {
   // Блок с похожими персонажами
-  var setupSimilar = window.setupSimilar;
+  var setupSimilar = window.domElement.setup.similar;
 
   // Загрузка данных с сервера
   // onLoad(data)

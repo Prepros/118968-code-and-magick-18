@@ -23,9 +23,6 @@
   // Поле ввода имени персонажа
   var setupUserName = window.domElement.setup.inputName;
 
-  // Блок обертка для создаваемого персонажа
-  var setupWizardAppearance = window.domElement.setup.wizardAppearance;
-
   // SVG иконка создаваемого персонажа
   var setupWizard = window.domElement.setup.wizard;
 
@@ -33,6 +30,12 @@
   var setupWizardCoat = window.domElement.setup.wizardCoat;
   var setupWizardEyes = window.domElement.setup.wizardEyes;
   var setupFireball = window.domElement.setup.wizardFireball;
+
+  // Блок обертка для создаваемого персонажа
+  var setupWizardAppearance = window.domElement.setup.wizardAppearance;
+  var appearanceCoatColor = setupWizardAppearance.querySelector('input[name="coat-color"]');
+  var appearanceEyesColor = setupWizardAppearance.querySelector('input[name="eyes-color"]');
+  var appearanceFireballColor = setupFireball.querySelector('input[name="fireball-color"]');
 
   // Кнопка отправки формы настроек персонажа
   var setupForm = window.domElement.setup.submitButton;
@@ -58,56 +61,89 @@
 
 
   // Добавляем персонажа
-  var onAddWizard = function (data) {
+  var addWizard = function (data) {
     var persons = [];
+    var rate = window.data.rate;
 
-    for (var i = 0; i < 4; i++) {
-      var randomWizard = data[window.util.randomVal(0, data.length - 1)];
-      persons.push(randomWizard);
+    // Удаляем всех предыдущих персонажей
+    while (similarList.firstChild) {
+      similarList.removeChild(similarList.firstChild);
     }
 
-    for (i = 0; i < persons.length; i++) {
-      var dom = renderWizard(persons[i]);
-      similarList.appendChild(dom);
+    // // Случайные персоныжи из списка
+    // for (var i = 0; i < 4; i++) {
+    //   var randomWizard = data[window.util.randomVal(0, data.length - 1)];
+    //   persons.push(randomWizard);
+    // }
+
+    // Фильтруем персонажей
+    persons = filterWizard(data);
+
+    // for (var i = 0; i < persons.length; i++) {
+    //   var dom = renderWizard(persons[i]);
+    //   similarList.appendChild(dom);
+    // }
+  };
+
+
+  // Фильтрация похожих персонажей
+  var filterWizard = function (data) {
+    console.log(data);
+  };
+
+
+  // Обновляем персонажей
+  var wizardUpdate = function () {
+    window.backend.load(addWizard, window.util.onError);
+  };
+
+  var wizardColorize = function (evt, element) {
+    var target = evt.target;
+    var color = 'black';
+
+    switch (element.getAttribute('name')) {
+      case 'coat-color':
+        color = window.util.getRandomColor(window.data.coatColors);
+        break;
+      case 'eyes-color':
+        color = window.util.getRandomColor(window.data.eyesColors);
+        break;
+      default:
+        color = window.util.getRandomColor(window.data.fireballColors);
     }
+
+    if (target.tagName.toLowerCase() === 'use') {
+      target.setAttribute('style', 'fill: ' + color);
+    } else {
+      target.setAttribute('style', 'background-color: ' + color);
+    }
+
+    element.value = color;
   };
 
 
   // Меняем цвет одежды
   setupWizardCoat.addEventListener('click', function (evt) {
-    var target = evt.target;
-    var input = setupWizardAppearance.querySelector('input[name="coat-color"]');
-    var color = window.util.getRandomColor(window.data.coatColors);
+    wizardColorize(evt, appearanceCoatColor);
 
-    target.setAttribute('style', 'fill: ' + color);
-    input.value = color;
-
-    window.backend.load(onAddWizard, window.util.onError);
+    wizardUpdate();
   });
 
 
   // Меняем цвет глаз
   setupWizardEyes.addEventListener('click', function (evt) {
-    var target = evt.target;
-    var input = setupWizardAppearance.querySelector('input[name="eyes-color"]');
-    var color = window.util.getRandomColor(window.data.eyesColors);
+    wizardColorize(evt, appearanceEyesColor);
 
-    target.setAttribute('style', 'fill: ' + color);
-    input.value = color;
-
-    window.backend.load(onAddWizard, window.util.onError);
+    wizardUpdate();
   });
 
 
   // Меняем цвет фаирбола
-  setupFireball.addEventListener('click', function () {
-    var input = setupFireball.querySelector('input[name="fireball-color"]');
-    var color = window.util.getRandomColor(window.data.fireballColors);
+  setupFireball.addEventListener('click', function (evt) {
+    wizardColorize(evt, appearanceFireballColor);
 
-    setupFireball.setAttribute('style', 'background: ' + color);
-    input.value = color;
 
-    window.backend.load(onAddWizard, window.util.onError);
+    wizardUpdate();
   });
 
 
