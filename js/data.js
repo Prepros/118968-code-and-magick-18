@@ -3,7 +3,7 @@
 (function () {
   // Рейтинг фильтрации
   var Rate = {
-    colorCoat: 3,
+    colorCoat: 5,
     colorEyes: 2,
     colorFireball: 1
   };

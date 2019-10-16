@@ -60,35 +60,76 @@
   };
 
 
-  // Добавляем персонажа
-  var addWizard = function (data) {
-    var persons = [];
-    var rate = window.data.rate;
-
-    // Удаляем всех предыдущих персонажей
+  // Удаляем всех предыдущих персонажей
+  var removeWizard = function () {
     while (similarList.firstChild) {
       similarList.removeChild(similarList.firstChild);
     }
+  };
 
-    // // Случайные персоныжи из списка
-    // for (var i = 0; i < 4; i++) {
-    //   var randomWizard = data[window.util.randomVal(0, data.length - 1)];
-    //   persons.push(randomWizard);
-    // }
+
+  // Добавляем персонажа
+  var addWizard = function (data) {
+    var fragment = document.createDocumentFragment();
+
+    // Удаляем всех предыдущих персонажей
+    removeWizard();
 
     // Фильтруем персонажей
-    persons = filterWizard(data);
+    var persons = filterWizard(data);
 
-    // for (var i = 0; i < persons.length; i++) {
-    //   var dom = renderWizard(persons[i]);
-    //   similarList.appendChild(dom);
-    // }
+    // Количество персонажей на отрисовку
+    var personsLength = persons.length < 4 ? persons.length : 4;
+
+    for (var i = 0; i < personsLength; i++) {
+      var node = renderWizard(persons[i]);
+      fragment.appendChild(node);
+    }
+
+    similarList.appendChild(fragment);
   };
 
 
   // Фильтрация похожих персонажей
   var filterWizard = function (data) {
-    console.log(data);
+    // Правило подсчета рейтинга
+    var rate = window.data.rate;
+
+    // Задаем рейтинг
+    data.forEach(function (value) {
+      value.rate = 0;
+
+      if (value.colorCoat === appearanceCoatColor.value) {
+        value.rate += rate.colorCoat;
+      }
+
+      if (value.colorEyes === appearanceEyesColor.value) {
+        value.rate += rate.colorEyes;
+      }
+
+      if (value.colorFireball === appearanceFireballColor.value) {
+        value.rate += rate.colorFireball;
+      }
+    });
+
+    // Сортириуем по убыванию рейтинга, если рейтинг одинаков то по имени
+    data.sort(function (a, b) {
+      if (a.rate > b.rate) {
+        return -1;
+      } else if (a.rate < b.rate) {
+        return 1;
+      } else {
+        if (a.name > b.name) {
+          return 1;
+        } else if (a.name < b.name) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+    });
+
+    return data;
   };
 
 
