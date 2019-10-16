@@ -6,7 +6,7 @@
 
   // Устраняет дребезг
   var debounce = function (cb) {
-    var DEBOUNCE_INTERVAL = 333;
+    var DEBOUNCE_INTERVAL = 500;
 
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);

@@ -1,30 +1,11 @@
 'use strict';
 
 (function () {
-  // Окно персонажей
-  var setup = window.domElement.setup.setup;
-
-  // Закрузка аватара пользователя и перемещение окна
-  var setupUload = window.domElement.setup.upload;
-
-  // Блок персонажей
-  var setupSimilar = window.domElement.setup.similar;
-
   // Список персонажей
   var similarList = window.domElement.setup.list;
 
-  // Открывает окно персонажей
-  var setupOpen = window.domElement.setup.buttonOpen;
-  var iconSetupOpen = window.domElement.setup.iconButtonOpen;
-
-  // Закрывает окно персонажей
-  var setupClose = window.domElement.setup.buttonClose;
-
   // Поле ввода имени персонажа
   var setupUserName = window.domElement.setup.inputName;
-
-  // SVG иконка создаваемого персонажа
-  var setupWizard = window.domElement.setup.wizard;
 
   // Части создаваемого персонажа
   var setupWizardCoat = window.domElement.setup.wizardCoat;
