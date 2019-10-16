@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  // Блок с похожими персонажами
+  var setupSimilar = window.setupSimilar;
+
   // Загрузка данных с сервера
   // onLoad(data)
   // onError(errorMessage)
@@ -31,6 +34,12 @@
       switch (xhr.status) {
         case 200:
           onLoad(data);
+
+          // Показываем список похожих персонажей
+          if (setupSimilar.classList.contains('hidden')) {
+            setupSimilar.classList.remove('hidden');
+          }
+
           break;
         case 400:
           onError('Неверный запрос');

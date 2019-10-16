@@ -34,19 +34,30 @@
   var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
   var setupFireball = setup.querySelector('.setup-fireball-wrap');
 
-  window.domElement = {
+  // Кнопка отправки формы настроек персонажа
+  var setupForm = setup.querySelector('.setup-wizard-form');
+
+
+  // Скодка
+  var Setup = {
     setup: setup,
-    setupUload: setupUload,
-    setupSimilar: setupSimilar,
-    similarList: similarList,
-    setupOpen: setupOpen,
-    iconSetupOpen: iconSetupOpen,
-    setupClose: setupClose,
-    setupUserName: setupUserName,
-    setupWizardAppearance: setupWizardAppearance,
-    setupWizard: setupWizard,
-    setupWizardCoat: setupWizardCoat,
-    setupWizardEyes: setupWizardEyes,
-    setupFireball: setupFireball
+    upload: setupUload,
+    similar: setupSimilar,
+    list: similarList,
+    buttonOpen: setupOpen,
+    iconButtonOpen: iconSetupOpen,
+    buttonClose: setupClose,
+    inputName: setupUserName,
+    wizardAppearance: setupWizardAppearance,
+    wizard: setupWizard,
+    wizardCoat: setupWizardCoat,
+    wizardEyes: setupWizardEyes,
+    wizardFireball: setupFireball,
+    submitButton: setupForm
+  };
+
+
+  window.domElement = {
+    setup: Setup
   };
 })();

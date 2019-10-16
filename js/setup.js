@@ -1,6 +1,43 @@
 'use strict';
 
 (function () {
+  // Окно персонажей
+  var setup = window.domElement.setup.setup;
+
+  // Закрузка аватара пользователя и перемещение окна
+  var setupUload = window.domElement.setup.upload;
+
+  // Блок персонажей
+  var setupSimilar = window.domElement.setup.similar;
+
+  // Список персонажей
+  var similarList = window.domElement.setup.list;
+
+  // Открывает окно персонажей
+  var setupOpen = window.domElement.setup.buttonOpen;
+  var iconSetupOpen = window.domElement.setup.iconButtonOpen;
+
+  // Закрывает окно персонажей
+  var setupClose = window.domElement.setup.buttonClose;
+
+  // Поле ввода имени персонажа
+  var setupUserName = window.domElement.setup.inputName;
+
+  // Блок обертка для создаваемого персонажа
+  var setupWizardAppearance = window.domElement.setup.wizardAppearance;
+
+  // SVG иконка создаваемого персонажа
+  var setupWizard = window.domElement.setup.wizard;
+
+  // Части создаваемого персонажа
+  var setupWizardCoat = window.domElement.setup.wizardCoat;
+  var setupWizardEyes = window.domElement.setup.wizardEyes;
+  var setupFireball = window.domElement.setup.wizardFireball;
+
+  // Кнопка отправки формы настроек персонажа
+  var setupForm = window.domElement.setup.submitButton;
+
+
   // Рисуем DOM
   var renderWizard = function (person) {
     var similarTemplate = document.querySelector('#similar-wizard-template').content;
@@ -36,53 +73,7 @@
   };
 
 
-  // Окно персонажей
-  var setup = document.querySelector('.setup');
-
-  // Закрузка аватара пользователя и перемещение окна
-  var setupUload = setup.querySelector('.upload');
-
-  // Блок персонажей
-  var setupSimilar = setup.querySelector('.setup-similar');
-
-  // Список персонажей
-  var similarList = setupSimilar.querySelector('.setup-similar-list');
-
-  // Открывает окно персонажей
-  var setupOpen = document.querySelector('.setup-open');
-  var iconSetupOpen = setupOpen.querySelector('.setup-open-icon');
-
-  // Закрывает окно персонажей
-  var setupClose = document.querySelector('.setup-close');
-
-  // Поле ввода имени персонажа
-  var setupUserName = setup.querySelector('.setup-user-name');
-
-  // Блок обертка для создаваемого персонажа
-  var setupWizardAppearance = setup.querySelector('.setup-wizard-appearance');
-
-  // SVG иконка создаваемого персонажа
-  var setupWizard = setupWizardAppearance.querySelector('.setup-wizard');
-
-  // Части создаваемого персонажа
-  var setupWizardCoat = setupWizard.querySelector('.wizard-coat');
-  var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
-  var setupFireball = setup.querySelector('.setup-fireball-wrap');
-
-  // Кнопка отправки формы настроек персонажа
-  var setupForm = setup.querySelector('.setup-wizard-form');
-
-  // Генерируем персонажей
-  // var persons = window.data.generationData(4);
-
-  // Показываем список персонажей
-  setupSimilar.classList.remove('hidden');
-
-  // Добавляем персонажей
-  // addWizard(persons);
-  window.backend.load(onAddWizard, window.util.onError);
-
-  // Цвет одежды
+  // Меняем цвет одежды
   setupWizardCoat.addEventListener('click', function (evt) {
     var target = evt.target;
     var input = setupWizardAppearance.querySelector('input[name="coat-color"]');
@@ -90,9 +81,12 @@
 
     target.setAttribute('style', 'fill: ' + color);
     input.value = color;
+
+    window.backend.load(onAddWizard, window.util.onError);
   });
 
-  // Цвет глаз
+
+  // Меняем цвет глаз
   setupWizardEyes.addEventListener('click', function (evt) {
     var target = evt.target;
     var input = setupWizardAppearance.querySelector('input[name="eyes-color"]');
@@ -100,15 +94,20 @@
 
     target.setAttribute('style', 'fill: ' + color);
     input.value = color;
+
+    window.backend.load(onAddWizard, window.util.onError);
   });
 
-  // Цвет фаирбола
+
+  // Меняем цвет фаирбола
   setupFireball.addEventListener('click', function () {
     var input = setupFireball.querySelector('input[name="fireball-color"]');
     var color = window.util.getRandomColor(window.data.fireballColors);
 
     setupFireball.setAttribute('style', 'background: ' + color);
     input.value = color;
+
+    window.backend.load(onAddWizard, window.util.onError);
   });
 
 
@@ -136,12 +135,5 @@
 
   });
 
-  window.setup = {
-    setup: setup,
-    setupOpen: setupOpen,
-    setupClose: setupClose,
-    iconSetupOpen: iconSetupOpen,
-    setupUserName: setupUserName,
-    setupUload: setupUload
-  };
+  window.setup = {};
 })();
