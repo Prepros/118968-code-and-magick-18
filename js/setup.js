@@ -167,7 +167,7 @@
   setupWizardCoat.addEventListener('click', function (evt) {
     wizardColorize(evt, appearanceCoatColor);
 
-    wizardUpdate();
+    window.debounce(wizardUpdate);
   });
 
 
@@ -175,7 +175,7 @@
   setupWizardEyes.addEventListener('click', function (evt) {
     wizardColorize(evt, appearanceEyesColor);
 
-    wizardUpdate();
+    window.debounce(wizardUpdate);
   });
 
 
@@ -184,7 +184,7 @@
     wizardColorize(evt, appearanceFireballColor);
 
 
-    wizardUpdate();
+    window.debounce(wizardUpdate);
   });
 
 

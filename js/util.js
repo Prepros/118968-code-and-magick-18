@@ -38,6 +38,7 @@
     document.body.insertAdjacentElement('afterbegin', element);
   };
 
+
   window.util = {
     randomVal: randomVal,
     isEscEvent: isEscEvent,
