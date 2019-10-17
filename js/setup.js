@@ -1,6 +1,27 @@
 'use strict';
 
 (function () {
+  // Список персонажей
+  var similarList = window.domElement.setup.list;
+
+  // Поле ввода имени персонажа
+  var setupUserName = window.domElement.setup.inputName;
+
+  // Части создаваемого персонажа
+  var setupWizardCoat = window.domElement.setup.wizardCoat;
+  var setupWizardEyes = window.domElement.setup.wizardEyes;
+  var setupFireball = window.domElement.setup.wizardFireball;
+
+  // Блок обертка для создаваемого персонажа
+  var setupWizardAppearance = window.domElement.setup.wizardAppearance;
+  var appearanceCoatColor = setupWizardAppearance.querySelector('input[name="coat-color"]');
+  var appearanceEyesColor = setupWizardAppearance.querySelector('input[name="eyes-color"]');
+  var appearanceFireballColor = setupFireball.querySelector('input[name="fireball-color"]');
+
+  // Кнопка отправки формы настроек персонажа
+  var setupForm = window.domElement.setup.submitButton;
+
+
   // Рисуем DOM
   var renderWizard = function (person) {
     var similarTemplate = document.querySelector('#similar-wizard-template').content;
@@ -20,95 +41,131 @@
   };
 
 
-  // Добавляем персонажа
-  var onAddWizard = function (data) {
-    var persons = [];
-
-    for (var i = 0; i < 4; i++) {
-      var randomWizard = data[window.util.randomVal(0, data.length - 1)];
-      persons.push(randomWizard);
-    }
-
-    for (i = 0; i < persons.length; i++) {
-      var dom = renderWizard(persons[i]);
-      similarList.appendChild(dom);
+  // Удаляем всех предыдущих персонажей
+  var removeWizard = function () {
+    while (similarList.firstChild) {
+      similarList.removeChild(similarList.firstChild);
     }
   };
 
 
-  // Окно персонажей
-  var setup = document.querySelector('.setup');
+  // Добавляем персонажа
+  var addWizard = function (data) {
+    var fragment = document.createDocumentFragment();
 
-  // Закрузка аватара пользователя и перемещение окна
-  var setupUload = setup.querySelector('.upload');
+    // Удаляем всех предыдущих персонажей
+    removeWizard();
 
-  // Блок персонажей
-  var setupSimilar = setup.querySelector('.setup-similar');
+    // Фильтруем персонажей
+    var persons = filterWizard(data);
 
-  // Список персонажей
-  var similarList = setupSimilar.querySelector('.setup-similar-list');
+    // Количество персонажей на отрисовку
+    var personsLength = persons.length < 4 ? persons.length : 4;
 
-  // Открывает окно персонажей
-  var setupOpen = document.querySelector('.setup-open');
-  var iconSetupOpen = setupOpen.querySelector('.setup-open-icon');
+    for (var i = 0; i < personsLength; i++) {
+      var node = renderWizard(persons[i]);
+      fragment.appendChild(node);
+    }
 
-  // Закрывает окно персонажей
-  var setupClose = document.querySelector('.setup-close');
+    similarList.appendChild(fragment);
+  };
 
-  // Поле ввода имени персонажа
-  var setupUserName = setup.querySelector('.setup-user-name');
 
-  // Блок обертка для создаваемого персонажа
-  var setupWizardAppearance = setup.querySelector('.setup-wizard-appearance');
+  // Фильтрация похожих персонажей
+  var filterWizard = function (data) {
+    // Правило подсчета рейтинга
+    var rate = window.data.rate;
 
-  // SVG иконка создаваемого персонажа
-  var setupWizard = setupWizardAppearance.querySelector('.setup-wizard');
+    // Задаем рейтинг
+    data.forEach(function (value) {
+      value.rate = 0;
 
-  // Части создаваемого персонажа
-  var setupWizardCoat = setupWizard.querySelector('.wizard-coat');
-  var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
-  var setupFireball = setup.querySelector('.setup-fireball-wrap');
+      if (value.colorCoat === appearanceCoatColor.value) {
+        value.rate += rate.colorCoat;
+      }
 
-  // Кнопка отправки формы настроек персонажа
-  var setupForm = setup.querySelector('.setup-wizard-form');
+      if (value.colorEyes === appearanceEyesColor.value) {
+        value.rate += rate.colorEyes;
+      }
 
-  // Генерируем персонажей
-  // var persons = window.data.generationData(4);
+      if (value.colorFireball === appearanceFireballColor.value) {
+        value.rate += rate.colorFireball;
+      }
+    });
 
-  // Показываем список персонажей
-  setupSimilar.classList.remove('hidden');
+    // Сортириуем по убыванию рейтинга, если рейтинг одинаков то по имени
+    data.sort(function (a, b) {
+      if (a.rate > b.rate) {
+        return -1;
+      } else if (a.rate < b.rate) {
+        return 1;
+      } else {
+        if (a.name > b.name) {
+          return 1;
+        } else if (a.name < b.name) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+    });
 
-  // Добавляем персонажей
-  // addWizard(persons);
-  window.backend.load(onAddWizard, window.util.onError);
+    return data;
+  };
 
-  // Цвет одежды
+
+  // Обновляем персонажей
+  var wizardUpdate = function () {
+    window.backend.load(addWizard, window.util.onError);
+  };
+
+  var wizardColorize = function (evt, element) {
+    var target = evt.target;
+    var color = 'black';
+
+    switch (element.getAttribute('name')) {
+      case 'coat-color':
+        color = window.util.getRandomColor(window.data.coatColors);
+        break;
+      case 'eyes-color':
+        color = window.util.getRandomColor(window.data.eyesColors);
+        break;
+      default:
+        color = window.util.getRandomColor(window.data.fireballColors);
+    }
+
+    if (target.tagName.toLowerCase() === 'use') {
+      target.setAttribute('style', 'fill: ' + color);
+    } else {
+      target.setAttribute('style', 'background-color: ' + color);
+    }
+
+    element.value = color;
+  };
+
+
+  // Меняем цвет одежды
   setupWizardCoat.addEventListener('click', function (evt) {
-    var target = evt.target;
-    var input = setupWizardAppearance.querySelector('input[name="coat-color"]');
-    var color = window.util.getRandomColor(window.data.coatColors);
+    wizardColorize(evt, appearanceCoatColor);
 
-    target.setAttribute('style', 'fill: ' + color);
-    input.value = color;
+    window.debounce(wizardUpdate);
   });
 
-  // Цвет глаз
+
+  // Меняем цвет глаз
   setupWizardEyes.addEventListener('click', function (evt) {
-    var target = evt.target;
-    var input = setupWizardAppearance.querySelector('input[name="eyes-color"]');
-    var color = window.util.getRandomColor(window.data.eyesColors);
+    wizardColorize(evt, appearanceEyesColor);
 
-    target.setAttribute('style', 'fill: ' + color);
-    input.value = color;
+    window.debounce(wizardUpdate);
   });
 
-  // Цвет фаирбола
-  setupFireball.addEventListener('click', function () {
-    var input = setupFireball.querySelector('input[name="fireball-color"]');
-    var color = window.util.getRandomColor(window.data.fireballColors);
 
-    setupFireball.setAttribute('style', 'background: ' + color);
-    input.value = color;
+  // Меняем цвет фаирбола
+  setupFireball.addEventListener('click', function (evt) {
+    wizardColorize(evt, appearanceFireballColor);
+
+
+    window.debounce(wizardUpdate);
   });
 
 
@@ -136,12 +193,5 @@
 
   });
 
-  window.setup = {
-    setup: setup,
-    setupOpen: setupOpen,
-    setupClose: setupClose,
-    iconSetupOpen: iconSetupOpen,
-    setupUserName: setupUserName,
-    setupUload: setupUload
-  };
+  window.setup = {};
 })();

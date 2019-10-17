@@ -1,16 +1,32 @@
 'use strict';
 
 (function () {
+  // Окно персонажей
+  var setup = window.domElement.setup.setup;
+
+  // Закрузка аватара пользователя и перемещение окна
+  var setupUload = window.domElement.setup.upload;
+
+  // Открывает окно персонажей
+  var setupOpen = window.domElement.setup.buttonOpen;
+  var iconSetupOpen = window.domElement.setup.iconButtonOpen;
+
+  // Закрывает окно персонажей
+  var setupClose = window.domElement.setup.buttonClose;
+
+  // Поле ввода имени персонажа
+  var setupUserName = window.domElement.setup.inputName;
+
   // Открытие попап окна с настройками персонажа
   var openSetup = function () {
-    window.setup.setup.classList.remove('hidden');
+    setup.classList.remove('hidden');
     document.addEventListener('keydown', onSetupEscPress);
   };
 
   // Закрытие попап окна с настройками персонажа
   var closeSetup = function () {
-    window.setup.setup.classList.add('hidden');
-    window.setup.setup.removeAttribute('style');
+    setup.classList.add('hidden');
+    setup.removeAttribute('style');
 
     document.removeEventListener('keydown', onSetupEscPress);
   };
@@ -31,48 +47,48 @@
   };
 
   // Событие клика на иконку пользователя
-  window.setup.setupOpen.addEventListener('click', function (evt) {
+  setupOpen.addEventListener('click', function (evt) {
     evt.preventDefault();
 
     openSetup();
   });
 
   // Событие клика на крестик
-  window.setup.setupClose.addEventListener('click', function (evt) {
+  setupClose.addEventListener('click', function (evt) {
     evt.preventDefault();
 
     closeSetup();
   });
 
   // При фокусе на иконке пользователя добавляем обработчик события ENTER
-  window.setup.iconSetupOpen.addEventListener('focus', function () {
+  iconSetupOpen.addEventListener('focus', function () {
     document.addEventListener('keydown', onSetupOpenEnterPress);
   });
   // При отмене фокуса на иконке пользователя убираем обработчик события ENTER
-  window.setup.iconSetupOpen.addEventListener('blur', function () {
+  iconSetupOpen.addEventListener('blur', function () {
     document.removeEventListener('keydown', onSetupOpenEnterPress);
   });
 
   // При фокусе на поле ввода имени добавляем обработчик события ESC
-  window.setup.setupUserName.addEventListener('focus', function () {
+  setupUserName.addEventListener('focus', function () {
     document.removeEventListener('keydown', onSetupEscPress);
   });
   // При отмене фокуса на поле ввода имени убираем обработчик события ESC
-  window.setup.setupUserName.addEventListener('blur', function () {
+  setupUserName.addEventListener('blur', function () {
     document.addEventListener('keydown', onSetupEscPress);
   });
 
   // При фокусе на крестике добавляем обработчик события ENTER
-  window.setup.setupClose.addEventListener('focus', function () {
+  setupClose.addEventListener('focus', function () {
     document.addEventListener('keydown', onSetupCloseEnterPress);
   });
   // При отмене фокуса на крестике добавляем убираем обработчик события ENTER
-  window.setup.setupUserName.addEventListener('blur', function () {
+  setupUserName.addEventListener('blur', function () {
     document.removeEventListener('keydown', onSetupCloseEnterPress);
   });
 
   // Перемещение окна настроек персонажа
-  window.setup.setupUload.addEventListener('mousedown', function (evt) {
+  setupUload.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -95,8 +111,8 @@
       startCoords.x = evtMove.clientX;
       startCoords.y = evtMove.clientY;
 
-      window.setup.setup.style.left = (window.setup.setup.offsetLeft - shift.x) + 'px';
-      window.setup.setup.style.top = (window.setup.setup.offsetTop - shift.y) + 'px';
+      setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+      setup.style.top = (setup.offsetTop - shift.y) + 'px';
     };
 
     var onMouseUp = function (evtUp) {
@@ -105,10 +121,10 @@
       if (dragged) {
         var onClickPreventDefault = function (evtClick) {
           evtClick.preventDefault();
-          window.setup.setupUload.removeEventListener('click', onClickPreventDefault);
+          setupUload.removeEventListener('click', onClickPreventDefault);
         };
 
-        window.setup.setupUload.addEventListener('click', onClickPreventDefault);
+        setupUload.addEventListener('click', onClickPreventDefault);
       }
 
       document.removeEventListener('mousemove', onMouseMove);

@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+  // Рейтинг фильтрации
+  var Rate = {
+    colorCoat: 5,
+    colorEyes: 2,
+    colorFireball: 1
+  };
+
+
   // Данные
   var names = [
     'Иван',
@@ -82,6 +90,8 @@
     generationData: generationData,
     coatColors: coatColors,
     eyesColors: eyesColors,
-    fireballColors: fireballColors
+    fireballColors: fireballColors,
+
+    rate: Rate
   };
 })();
