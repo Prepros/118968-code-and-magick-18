@@ -30,10 +30,19 @@
     }
   };
 
+  // При провале
+  var onError = function (errorMessage) {
+    var element = document.createElement('div');
+    element.classList.add('error-block');
+    element.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', element);
+  };
+
   window.util = {
     randomVal: randomVal,
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent,
-    getRandomColor: getRandomColor
+    getRandomColor: getRandomColor,
+    onError: onError
   };
 })();
