@@ -6,6 +6,8 @@
 
   // Закрузка аватара пользователя и перемещение окна
   var setupUload = setup.querySelector('.upload');
+  var setupPreview = setupUload.querySelector('.setup-user-pic');
+  var setupFile = setupUload.querySelector('input[type="file"]');
 
   // Блок персонажей
   var setupSimilar = setup.querySelector('.setup-similar');
@@ -42,6 +44,8 @@
   var Setup = {
     setup: setup,
     upload: setupUload,
+    uploadPreview: setupPreview,
+    uploadFile: setupFile,
     similar: setupSimilar,
     list: similarList,
     buttonOpen: setupOpen,
